@@ -1,4 +1,5 @@
 from csv import reader
+from random import randrange
 
 def title_count():
     purple = '\u001b[35m'
@@ -45,17 +46,19 @@ def book_search():
 
 
 def bib_ref_gen():
+    li = [randrange(1, 9410) for i in range(20)]
     with open('books-en.csv', 'r', ) as csvfile:
         table = reader(csvfile, delimiter=';')
         output = open('bib_ref.txt', 'w')
         counter = 0
-        for row in table:
-            output.write(f'{row[2]}. {row[1]} - {row[3]}\n')
-            counter += 1
-            if counter == 21: break
+        for i, row in enumerate(table):
+            if i in li:
+                output.write(f'{counter+1} {row[2]}. {row[1]} - {row[3]}\n')
+                counter += 1
+            if counter == 20: break
         output.close()
 
 if __name__ == '__main__':
+    bib_ref_gen()
     title_count()
     book_search()
-    bib_ref_gen()
